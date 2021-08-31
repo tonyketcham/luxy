@@ -1,0 +1,26 @@
+{
+  "name": "luxy-client",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "start": "vite preview"
+  },
+  "keywords": [
+    "DMX",
+    "Vue 3",
+    "live visuals"
+  ],
+  "author": "Tony Ketcham (ketcham.dev@gmail.com)",
+  "license": "MIT",
+  "dependencies": {
+    "vue": "^3.2.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.6.0",
+    "@vue/compiler-sfc": "^3.0.5",
+    "typescript": "^4.3.2",
+    "vite": "^2.5.1",
+    "vue-tsc": "^0.2.2"
+  }
+}
