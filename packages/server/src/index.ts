@@ -1,17 +1,14 @@
+// Utils imports
+import express from 'express';
+import consola from 'consola';
+
+// DMX imports
 import { DMX, EnttecUSBDMXProDriver, Animation } from 'dmx-ts';
 import {
   IUniverseDriver,
   UniverseData,
 } from 'dmx-ts/dist/src/models/IUniverseDriver';
 import { getDMXInterfacePort } from './io/port';
-
-// DMX controller instance
-const dmx = new DMX();
-
-// Hardware interface detection
-const interfaceManufacturer = 'DMXking.com';
-const interfacePort = getDMXInterfacePort(interfaceManufacturer);
-console.log(interfacePort);
 
 // Main control function
 const run = async () => {
@@ -87,4 +84,27 @@ const run = async () => {
   greenWater(universe, [3 + 15, 6 + 15, 9 + 15], 4000);
 };
 
-run().catch((err) => console.error(err));
+// DMX controller instance
+const dmx = new DMX();
+
+// Hardware interface detection
+const interfaceManufacturer = 'DMXking.com';
+const interfacePort = getDMXInterfacePort(interfaceManufacturer);
+console.log(interfacePort);
+
+const app = express();
+
+const PORT = process.env.PORT || 4000;
+
+app.get('/', (req, res) => {
+  run()
+    .then(() => res.json({ message: 'DMX control initialized' }))
+    .catch((err) => {
+      res.json({ error: err.toString() });
+      consola.error(err);
+    });
+});
+
+app.listen(PORT, () => {
+  consola.success(`✨Server running at http://localhost:${PORT}`);
+});
