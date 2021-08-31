@@ -5,12 +5,19 @@ import {
 } from 'dmx-ts/dist/src/models/IUniverseDriver';
 import { getDMXInterfacePort } from './io/port';
 
+// DMX controller instance
 const dmx = new DMX();
 
-const interfacePort = getDMXInterfacePort('DMXking.com');
+// Hardware interface detection
+const interfaceManufacturer = 'DMXking.com';
+const interfacePort = getDMXInterfacePort(interfaceManufacturer);
 console.log(interfacePort);
 
+// Main control function
 const run = async () => {
+  if (!interfacePort?.path)
+    throw Error(`DMX interface made by ${interfaceManufacturer} not found.`);
+
   const universe = await dmx.addUniverse(
     'sumgerLaserTest',
     new EnttecUSBDMXProDriver(interfacePort.path, { dmxSpeed: 40 })
